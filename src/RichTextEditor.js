@@ -48,6 +48,7 @@ export default class RichTextEditor extends Component {
       keyboardHeight: 0
     };
     this._selectedTextChangeListeners = [];
+    this._selectedActions = [];
   }
 
   componentWillMount() {
@@ -175,9 +176,9 @@ export default class RichTextEditor extends Component {
           this.contentFocusHandler && this.contentFocusHandler();
           break;
         case messages.SELECTION_CHANGE: {
-          const items = message.data.items;
+          this._selectedActions = message.data.items;
           this.state.selectionChangeListeners.map((listener) => {
-            listener(items);
+            listener(this._selectedActions);
           });
           break;
         }
@@ -351,6 +352,8 @@ export default class RichTextEditor extends Component {
     this.setState({
       selectionChangeListeners: [...this.state.selectionChangeListeners, listener]
     });
+    
+    listener(this._selectedActions);
   }
   
   enableOnChange() {
