@@ -12,7 +12,6 @@
     "react-native-webview-bridge-updated": "^1.0.0"
   },
   "peerDependencies": {
-    "react": "*",
     "react-native": ">=0.31.0"
   }
 }
