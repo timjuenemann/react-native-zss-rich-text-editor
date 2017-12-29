@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {handleAction} from './WebviewMessageHandler';
 import {actions, messages} from './const';
 import {Modal, View, Text, StyleSheet, TextInput, TouchableOpacity, Platform, PixelRatio, Keyboard, Dimensions, WebView} from 'react-native';
-
 const PlatformIOS = Platform.OS === 'ios';
 
 
@@ -41,7 +40,7 @@ export default class RichTextEditor extends Component {
       linkTitle: '',
       linkUrl: '',
       keyboardHeight: 0,
-      WebViewHeight: 20,
+      webViewHeight: 20,
     };
     this._selectedTextChangeListeners = [];
   }
@@ -291,7 +290,7 @@ export default class RichTextEditor extends Component {
       <View style={{flex: 1}}>
         <WebView
           {...this.props}
-          style={{height: this.state.WebViewHeight}}
+          style={{height: this.state.webViewHeight}}
           bounces={false}
           scrollEnabled={false}
           automaticallyAdjustContentInsets={true}
@@ -303,7 +302,7 @@ export default class RichTextEditor extends Component {
             var data = JSON.parse(message.nativeEvent.data);
             console.log(data);
             if(data.type == "HEIGHT_CHANGED") {
-              this.setState({WebViewHeight: data.value});
+              this.setState({webViewHeight: data.value});
             }
           }}
           source={pageSource}
