@@ -40,7 +40,8 @@ export default class RichTextEditor extends Component {
       linkInitialUrl: '',
       linkTitle: '',
       linkUrl: '',
-      keyboardHeight: 0
+      keyboardHeight: 0,
+      WebViewHeight: 20,
     };
     this._selectedTextChangeListeners = [];
   }
@@ -290,10 +291,21 @@ export default class RichTextEditor extends Component {
       <View style={{flex: 1}}>
         <WebView
           {...this.props}
+          style={{height: this.state.WebViewHeight}}
+          bounces={false}
+          scrollEnabled={false}
+          automaticallyAdjustContentInsets={true}
           hideKeyboardAccessoryView={true}
-          keyboardDisplayRequiresUserAction={false}
+          keyboardDisplayRequiresUserAction={true}
           ref={(r) => {this.webView = r}}
-          onMessage={(message) => this.onMessage(message)}
+          onMessage={(message) => {
+            this.onMessage(message);
+            var data = JSON.parse(message.nativeEvent.data);
+            console.log(data);
+            if(data.type == "HEIGHT_CHANGED") {
+              this.setState({WebViewHeight: data.value});
+            }
+          }}
           source={pageSource}
           onLoad={() => this.init()}
         />
