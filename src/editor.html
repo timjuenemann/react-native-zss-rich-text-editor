@@ -33,6 +33,7 @@
 			 JS Beautifier
 			 ---------------
 			 */
+			 
 			function trim(s) {
 				return s.replace(/^\s+|\s+$/g, '');
 			}
@@ -808,7 +809,12 @@
 				if (selectedTextChangeMessage !== zss_editor.previousSelectedTextChangeMessage) {
 					postMessage(selectedTextChangeMessage);
 					zss_editor.previousSelectedTextChangeMessage = selectedTextChangeMessage;
+					postMessage(JSON.stringify({
+						type: 'HEIGHT_CHANGED',
+						value: $("#zss_editor_content").height()
+					}))
 				}
+				
 			}
 			function whenPastingInsertAsPlainText(editorId) {
 				var editor = document.getElementById(editorId);
@@ -852,6 +858,10 @@
 			zss_editor.setScrollPosition = function() {
 				var position = window.pageYOffset;
 				postMessage(JSON.stringify({type: 'SCROLL', data: position}));
+				postMessage(JSON.stringify({
+					type: 'HEIGHT_CHANGED',
+					value: $("#zss_editor_content").height()
+				}));
 			}
 			function setPlaceholder(editorId, placeholder) {
 				var editor = $('#' + editorId);
@@ -1165,6 +1175,10 @@
 						type: 'CONTENT_CHANGE',
 						data: {content: getHtml("zss_editor_content")}
 					}))
+					postMessage(JSON.stringify({
+						type: 'HEIGHT_CHANGED',
+						value: $("#zss_editor_content").height()
+					}))
 				});
 			}
 			zss_editor.hideTitle = function() {
@@ -1326,6 +1340,10 @@
 				if (selectionChangeMessage !== zss_editor.previousSelectionChangeMessage) {
 					postMessage(selectionChangeMessage);
 					zss_editor.previousSelectionChangeMessage = selectionChangeMessage;
+					postMessage(JSON.stringify({
+						type: 'HEIGHT_CHANGED',
+						value: $("#zss_editor_content").height()
+					}))
 				}
 			}
 			zss_editor.focusContent = function() {
@@ -1383,6 +1401,37 @@
 				zss_editor.platform = platform;
 			}
 			//end
+
+
+			$(document).ready(function(){
+				postMessage(JSON.stringify({
+					type: 'HEIGHT_CHANGED',
+					value: $("#zss_editor_content").height()
+				}))
+			 });
+
+			 $('#zss_editor_content').change(function() {
+				postMessage(JSON.stringify({
+					type: 'TESTY',
+					value: $("#zss_editor_content").height()
+				}))
+			 })
+
+
+			setTimeout(function(){
+				postMessage(JSON.stringify({
+					type: 'HEIGHT_CHANGED',
+					value: $("#zss_editor_content").height()
+				}))
+			}, 300);
+
+			 $('#zss_editor_content').bind('DOMNodeInserted DOMNodeRemoved', function() {
+				postMessage(JSON.stringify({
+					type: 'HEIGHT_CHANGED',
+					value: $("#zss_editor_content").height()
+				}))
+			});
+			
 		</script>
 
 		<style type="text/css">
