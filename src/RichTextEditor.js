@@ -41,6 +41,7 @@ export default class RichTextEditor extends Component {
       linkUrl: '',
       keyboardHeight: 0,
       webViewHeight: 20,
+      caretPosition: 0,
     };
     this._selectedTextChangeListeners = [];
   }
@@ -303,6 +304,10 @@ export default class RichTextEditor extends Component {
             console.log(data);
             if(data.type == "HEIGHT_CHANGED") {
               this.setState({webViewHeight: data.value});
+            }
+            if(data.type == "CARET_OFFSET") {
+              this.setState({caretPosition: data.value});
+              this.props.getCaretPosition(data.value);
             }
           }}
           source={pageSource}
@@ -614,6 +619,7 @@ export default class RichTextEditor extends Component {
   addSelectedTextChangeListener(listener) {
     this._selectedTextChangeListeners.push(listener);
   }
+
 }
 
 const styles = StyleSheet.create({
