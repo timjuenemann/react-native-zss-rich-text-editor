@@ -1014,6 +1014,7 @@
 				}
 				zss_editor.enabledEditingItems();
 			}
+			
 			// Need way to remove formatBlock
 			console.log('WARNING: We need a way to remove formatBlock items');
 			zss_editor.undo = function() {
@@ -1415,12 +1416,17 @@
 
 
 
-			 $('#zss_editor_content').change(function() {
-				postMessage(JSON.stringify({
-					type: 'TESTY',
-					value: $("#zss_editor_content").height()
-				}))
-			 })
+			 
+			 $( document ).ready(function() {
+				document.execCommand("DefaultParagraphSeparator", false, "p");
+				 var editable = document.getElementById('zss_editor_content');
+				 editable.addEventListener('input', function() {
+					postMessage(JSON.stringify({
+						type: 'TESTY',
+					}))
+				 });
+			});
+
 
 		
 
@@ -1533,6 +1539,7 @@
 				padding: 0;
 				box-sizing: border-box;
 			}
+
 		</style>
 
 		<style type="text/css">
@@ -1545,7 +1552,7 @@
 		<!-- ZSSRichTextEditor Editable Content -->
 		<div style="display:none" id="zss_editor_title" class="zss_editor_title" contenteditable="true" placeholder="" disableLineBreaks="true"></div>
 		<div style="display:none" id="separatorContainer"><hr></div>
-		<div id="zss_editor_content" class="zss_editor_content" contenteditable="true" placeholder=""></div>
+		<div id="zss_editor_content" class="zss_editor_content" contenteditable="true" placeholder=""><p></p></div>
 		<div id="zss_editor_footer"></div>
 	</body>
 </html>
